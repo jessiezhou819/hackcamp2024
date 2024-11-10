@@ -1,28 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import HomePage from './Homepage';
-import NewPage from './second_page';
+import Upload  from './Upload';
 
 function App() {
   return (
     <Router>
       <div>
         {/* Navigation Links */}
-        <nav>
+        
           <ul>
             <li>
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/newpage">New Page</Link>
+              <Link to="/Upload">Upload</Link>
             </li>
           </ul>
-        </nav>
+         
 
         {/* Define Routes */}
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/newpage" element={<NewPage />} />
+          <Route path="/Upload" element={<Upload />} />
         </Routes>
       </div>
     </Router>
