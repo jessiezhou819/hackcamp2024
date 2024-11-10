@@ -5,7 +5,7 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/index.js",
-    "client": "cd hackcamp2024/client && npm start"
+    "client": "cd client && npm start"
   },
   "dependencies": {
     "cors": "^2.8.5",
