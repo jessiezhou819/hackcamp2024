@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import RandomQuote from "./component/RandomQuote";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("/api/hello")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
     <div className="App">
-      <h1>hello</h1>
+      <h1>Welcome to My React App</h1>
+      <RandomQuote />
     </div>
   );
 }
