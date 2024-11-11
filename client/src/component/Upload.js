@@ -23,7 +23,6 @@ function Upload() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: "image/*", // Restrict to image files only
-    noClick: false, // Allow click event on the dropzone area
   });
 
   // Handle file submission
@@ -57,9 +56,8 @@ function Upload() {
   };
 
   return (
-    <div className="upload-container">
-      <h2 className="upload-title">Drag and Drop Your Exam Schedule</h2>
-
+    <div>
+      <h2>Drag and Drop an Image of your Exam Schedule</h2>
       <div
         {...getRootProps()}
         style={{
@@ -73,12 +71,9 @@ function Upload() {
         }}
       >
         <input {...getInputProps()} />
-        <h3 className="upload-message">
-          Drag and drop your exam schedule here, or click to select one
-        </h3>
+        <h3>Drag and drop your exam schedule here, or click to select one</h3>
       </div>
 
-      {/* Show the uploaded image */}
       {image && (
         <div style={{ marginTop: "20px" }}>
           <h3>Uploaded Image:</h3>
@@ -87,6 +82,12 @@ function Upload() {
             alt="Uploaded"
             style={{ width: "100%", maxWidth: "300px" }}
           />
+          <button
+            onClick={handleSubmit}
+            style={{ marginTop: "20px", padding: "10px 20px" }}
+          >
+            Submit Image
+          </button>
         </div>
       )}
     </div>

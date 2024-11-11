@@ -21,6 +21,36 @@ const examSchedule = [
   },
 ];
 
+function parseExamSchedule(text) {
+  const examSchedule = [];
+  const lines = text.split("\n");
+
+  // Generalized regex pattern to capture title, date, and time
+  const regex =
+    /(?:\w+\s+\d{4}W\d\s+.*?-\s+)?(.+?)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}:\d{2}:\d{2})/;
+
+  lines.forEach((line) => {
+    const match = line.match(regex);
+    if (match) {
+      const [, title, date, startTime] = match;
+
+      // Convert date from MM/DD/YYYY to YYYY-MM-DD format
+      const [month, day, year] = date.split("/");
+      const formattedDate = `${year}-${month}-${day}`;
+
+      // Push parsed exam details into the array
+      examSchedule.push({
+        title: title.trim(),
+        date: formattedDate,
+        startTime: startTime.slice(0, 5), // Use "HH:MM" format
+        endTime: "TBD", // Placeholder for end time
+      });
+    }
+  });
+
+  return examSchedule;
+}
+
 const UploadCalendar = ({}) => {
   // Convert parsed data into calendar events
   const events = examSchedule.map((exam) => ({
