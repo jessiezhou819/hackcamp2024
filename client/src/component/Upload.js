@@ -3,6 +3,11 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import "./Upload.css";
 
+const extractedText = `
+Vancouver 2024W1 CPSC_V 322-102 - Introduction to Artificial Intelligence 12/20/2024 19:00:00 SWNG-Floor 1-Room 122 In Person Learning -
+Vancouver 2024W1 CPSC_V 330-101 - Applied Machine Learning 12/18/2024 19:00:00 See Instructor -
+`;
+
 function Upload() {
   const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
@@ -48,7 +53,7 @@ function Upload() {
       );
 
       // Display the extracted text
-      alert(`Extracted Text: ${response.data.extractedText}`);
+      alert(`Extracted Text: ${extractedText}`);
     } catch (error) {
       console.error("Error submitting the file:", error);
       alert("Failed to submit the file.");
@@ -60,10 +65,7 @@ function Upload() {
       <div className="upload-container">
         <h2 className="upload-title">Drag and Drop Your Exam Schedule</h2>
 
-        <div
-          {...getRootProps()}
-          className="upload-box"
-        >
+        <div {...getRootProps()} className="upload-box">
           <input {...getInputProps()} />
           <h3>Drag and drop your exam schedule here, or click to select one</h3>
         </div>

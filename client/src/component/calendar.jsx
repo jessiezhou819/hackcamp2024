@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -6,44 +6,31 @@ import "./calendar.css"; // Import your custom styles
 
 const localizer = momentLocalizer(moment);
 
-const examSchedule = [
-  {
-    title: "Math Exam",
-    date: "2024-12-12",
-    startTime: "09:00",
-    endTime: "12:00",
-  },
-  {
-    title: "Physics Exam",
-    date: "2024-12-15",
-    startTime: "13:00",
-    endTime: "16:00",
-  },
-];
+const extractedText = `
+Vancouver 2024W1 CPSC_V 322-102 - Introduction to Artificial Intelligence 12/20/2024 19:00:00 SWNG-Floor 1-Room 122 In Person Learning -
+Vancouver 2024W1 CPSC_V 330-101 - Applied Machine Learning 12/18/2024 19:00:00 See Instructor -
+`;
 
-// Function to parse exam schedule text (if needed)
+const examSchedule = parseExamSchedule(extractedText);
+
 function parseExamSchedule(text) {
   const examSchedule = [];
   const lines = text.split("\n");
 
-  // Generalized regex pattern to capture title, date, and time
-  const regex = /(?:\w+\s+\d{4}W\d\s+.*?-\s+)?(.+?)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}:\d{2}:\d{2})/;
+  const regex =
+    /(?:\w+\s+\d{4}W\d\s+.*?-\s+)?(.+?)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}:\d{2}:\d{2})/;
 
   lines.forEach((line) => {
     const match = line.match(regex);
     if (match) {
       const [, title, date, startTime] = match;
-
-      // Convert date from MM/DD/YYYY to YYYY-MM-DD format
       const [month, day, year] = date.split("/");
       const formattedDate = `${year}-${month}-${day}`;
 
-      // Push parsed exam details into the array
       examSchedule.push({
         title: title.trim(),
         date: formattedDate,
-        startTime: startTime.slice(0, 5), // Use "HH:MM" format
-        endTime: "TBD", // Placeholder for end time
+        startTime: startTime.slice(0, 5), // "HH:MM" format
       });
     }
   });
@@ -51,23 +38,67 @@ function parseExamSchedule(text) {
   return examSchedule;
 }
 
-// Main UploadCalendar component
 const UploadCalendar = () => {
-  // Convert examSchedule data into calendar events
-  const events = examSchedule.map((exam) => ({
-    title: exam.title,
-    start: new Date(`${exam.date}T${exam.startTime}`),
-    end: new Date(`${exam.date}T${exam.endTime}`),
-  }));
+  const [countdown, setCountdown] = useState("");
+
+  // Find the earliest upcoming exam date
+  const earliestExam = examSchedule.reduce((earliest, exam) => {
+    const examDate = new Date(`${exam.date}T${exam.startTime}`);
+    return !earliest || examDate < new Date(earliest.date) ? exam : earliest;
+  }, null);
+
+  useEffect(() => {
+    if (!earliestExam) return;
+
+    const examDate = new Date(`${earliestExam.date}T${earliestExam.startTime}`);
+
+    const updateCountdown = () => {
+      const now = new Date();
+      const timeDiff = examDate - now;
+
+      if (timeDiff <= 0) {
+        setCountdown("The exam has started or already passed!");
+        return;
+      }
+
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeDiff / 1000) % 60);
+
+      setCountdown(
+        `Time until earliest exam (${earliestExam.title}): ${days}d ${hours}h ${minutes}m ${seconds}s`
+      );
+    };
+
+    // Update countdown every second
+    const interval = setInterval(updateCountdown, 1000);
+
+    // Cleanup the interval when component unmounts
+    return () => clearInterval(interval);
+  }, [earliestExam]);
+
+  const events = examSchedule.map((exam) => {
+    const start = new Date(`${exam.date}T${exam.startTime}`);
+    const end = new Date(start);
+    end.setHours(start.getHours() + 2, start.getMinutes() + 30);
+
+    return {
+      title: exam.title,
+      start,
+      end,
+    };
+  });
 
   return (
     <div className="calendar-container">
+      <h2 className="countdown-text">{countdown}</h2>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: "80vh", width: "900vh" }} // Adjust calendar dimensions
+        style={{ height: "75vh", width: "100%" }}
       />
     </div>
   );

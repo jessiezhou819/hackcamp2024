@@ -1,14 +1,48 @@
+/* Outer container to center the calendar on the page */
+.outer-container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Optional: light background for contrast */
+}
+
 /* Styling for the main calendar container */
 .calendar-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 40px; /* Adds inner padding for more spacing */
-  margin: 60px auto; /* Adds margin around the container */
-  width: 95%;
-  max-width: 1000px;
+  padding: 40px;
+  margin: 0; /* Removed margin to avoid offset */
+  width: 150vh;
+  max-width: 1800px;
   height: 85vh;
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Countdown text styling */
+.countdown-text {
+  font-size: 1.8em;
+  color: #0073e6;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Calendar wrapper styling */
+.calendar-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rbc-event-content,
+.rbc-event-label {
+  display: block;
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  white-space: nowrap;
 }
