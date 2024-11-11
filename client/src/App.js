@@ -4,6 +4,7 @@ import Home from './component/home';
 import Upload  from './component/Upload';
 import RandomQuote from "./component/RandomQuote";
 import Navbar from "./component/navbar";
+import Schedule from "./component/schedule";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
          <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/calendar" element={<Schedule />} />
         </Routes>
   
      </Router> 
