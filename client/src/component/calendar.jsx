@@ -2,7 +2,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-// import "./calendar.css"; // Import your custom styles
+import "./calendar.css"; // Import your custom styles
 
 const localizer = momentLocalizer(moment);
 
@@ -21,13 +21,13 @@ const examSchedule = [
   },
 ];
 
+// Function to parse exam schedule text (if needed)
 function parseExamSchedule(text) {
   const examSchedule = [];
   const lines = text.split("\n");
 
   // Generalized regex pattern to capture title, date, and time
-  const regex =
-    /(?:\w+\s+\d{4}W\d\s+.*?-\s+)?(.+?)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}:\d{2}:\d{2})/;
+  const regex = /(?:\w+\s+\d{4}W\d\s+.*?-\s+)?(.+?)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}:\d{2}:\d{2})/;
 
   lines.forEach((line) => {
     const match = line.match(regex);
@@ -51,8 +51,9 @@ function parseExamSchedule(text) {
   return examSchedule;
 }
 
-const UploadCalendar = ({}) => {
-  // Convert parsed data into calendar events
+// Main UploadCalendar component
+const UploadCalendar = () => {
+  // Convert examSchedule data into calendar events
   const events = examSchedule.map((exam) => ({
     title: exam.title,
     start: new Date(`${exam.date}T${exam.startTime}`),
@@ -60,13 +61,13 @@ const UploadCalendar = ({}) => {
   }));
 
   return (
-    <div style={{ height: "600px" }}>
+    <div className="calendar-container">
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 600 }}
+        style={{ height: "80vh", width: "900vh" }} // Adjust calendar dimensions
       />
     </div>
   );

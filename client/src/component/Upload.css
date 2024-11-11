@@ -7,33 +7,45 @@
   
   body {
     font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f1e6; /* Canvas tote color */
+    overflow: hidden;
+  }
+  
+  /* Outer container to center the entire component */
+  .outer-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f5f1e6; /* Canvas tote color */
-    position: relative;
-    overflow: hidden;
+    width: 100vw;
   }
   
-  /* Upload page container */
+  /* Inner upload container */
   .upload-container {
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    position: relative;
-    padding: 3rem;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
     z-index: 2;
   }
   
+  /* Title styling */
   .upload-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #333333;
     margin-bottom: 1rem;
   }
   
+  /* Description */
   .upload-description {
     font-size: 1.2rem;
     color: #555555;
@@ -42,31 +54,30 @@
   
   /* Upload box */
   .upload-box {
-    border: 2px dashed #7a6a5c; /* Soft brown color for the dashed border */
+    border: 2px dashed #7a6a5c;
     padding: 2rem;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
     border-radius: 8px;
-    background-color: #faf4e6; /* Light beige background */
-    transition: all 0.3s ease;
+    background-color: #faf4e6;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
   .upload-box:hover {
-    background-color: #f0e8c9; /* Slightly darker beige on hover */
-    border-color: #8d7a55; /* Darker brown on hover */
+    background-color: #f0e8c9;
+    border-color: #8d7a55;
   }
   
-  /* Upload input field */
+  /* Hidden file input */
   input[type="file"] {
     display: none;
   }
   
+  /* Label styling for clickable upload */
   .upload-label {
     display: inline-block;
     padding: 1rem 2rem;
-    background-color: #f0e8c9; /* Soft beige background */
-    color: #7a6a5c; /* Soft brown text */
+    background-color: #f0e8c9;
+    color: #7a6a5c;
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 4px;
@@ -75,56 +86,17 @@
   }
   
   .upload-label:hover {
-    background-color: #e1d4b8; /* Light yellow-beige hover effect */
+    background-color: #e1d4b8;
   }
   
-  .upload-icon {
-    font-size: 2rem;
-    margin-right: 0.5rem;
+  /* Uploaded image display */
+  .uploaded-image {
+    margin-top: 20px;
   }
   
-  /* File name display */
-  .file-name {
-    font-size: 1rem;
-    color: #333333;
-    margin-top: 1rem;
-    word-wrap: break-word;
+  .uploaded-image img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   }
-  
-  /* Animation for floating background elements */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-  }
-  
-  /* Subtle background pattern (cute stationery-themed) */
-  .upload-container {
-    content: "";
-    position: absolute;
-    top: 50%; /* Move the element 50% from the top of the viewport */
-    left: 50%; /* Move the element 50% from the left of the viewport */
-    transform: translate(-50%, -50%); /* Offset the element by half of its own width and height */
-    width: 500px; /* Set width */
-    height: 400px; /* Set height */
-    background-color: #f0e8c9; /* Your custom background */
-    background-size: cover;
-    background-position: center;
-    opacity: 0.9;
-    z-index: 1;
-  }
-  
-  /* Animation for cute background icons (laptop, pen, clock, etc.) */
-  .laptop, .pen, .alarm-clock, .books {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  /* Add slight delay for each icon */
-  .laptop { animation-delay: 0s; }
-  .alarm-clock { animation-delay: 0.3s; }
-  .pen { animation-delay: 0.6s; }
-  .books { animation-delay: 0.9s; }
   

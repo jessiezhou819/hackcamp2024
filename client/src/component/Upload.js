@@ -56,40 +56,36 @@ function Upload() {
   };
 
   return (
-    <div>
-      <h2>Drag and Drop an Image of your Exam Schedule</h2>
-      <div
-        {...getRootProps()}
-        style={{
-          border: "2px dashed #ccc",
-          padding: "200px",
-          textAlign: "center",
-          cursor: "pointer",
-          borderRadius: "100px",
-          width: "700px",
-          margin: "0 auto",
-        }}
-      >
-        <input {...getInputProps()} />
-        <h3>Drag and drop your exam schedule here, or click to select one</h3>
-      </div>
+    <div className="outer-container">
+      <div className="upload-container">
+        <h2 className="upload-title">Drag and Drop Your Exam Schedule</h2>
 
-      {image && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Uploaded Image:</h3>
-          <img
-            src={image}
-            alt="Uploaded"
-            style={{ width: "100%", maxWidth: "300px" }}
-          />
-          <button
-            onClick={handleSubmit}
-            style={{ marginTop: "20px", padding: "10px 20px" }}
-          >
-            Submit Image
-          </button>
+        <div
+          {...getRootProps()}
+          className="upload-box"
+        >
+          <input {...getInputProps()} />
+          <h3>Drag and drop your exam schedule here, or click to select one</h3>
         </div>
-      )}
+
+        {/* Show the uploaded image */}
+        {image && (
+          <div className="uploaded-image">
+            <h3>Uploaded Image:</h3>
+            <img
+              src={image}
+              alt="Uploaded"
+              style={{ width: "100%", maxWidth: "300px" }}
+            />
+            <button
+              onClick={handleSubmit}
+              style={{ marginTop: "20px", padding: "10px 20px" }}
+            >
+              Submit Image
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
