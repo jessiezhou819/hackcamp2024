@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-import './Upload.css';
+import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import axios from "axios";
+import "./Upload.css";
 
 function Upload() {
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
 
   // Handle drop event
   const onDrop = (acceptedFiles) => {
@@ -11,7 +13,8 @@ function Upload() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result); // Set the image as the state
+        setImage(reader.result); // Set the image as the state (base64)
+        setFile(file); // Save the file for submission
       };
       reader.readAsDataURL(file);
     }
@@ -19,19 +22,56 @@ function Upload() {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*', // Restrict to image files only
+    accept: "image/*", // Restrict to image files only
     noClick: false, // Allow click event on the dropzone area
   });
+
+  // Handle file submission
+  const handleSubmit = async () => {
+    if (!file) {
+      alert("No file selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      // Send the image to the backend
+      const response = await axios.post(
+        "http://localhost:4321/extract-text",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // Display the extracted text
+      alert(`Extracted Text: ${response.data.extractedText}`);
+    } catch (error) {
+      console.error("Error submitting the file:", error);
+      alert("Failed to submit the file.");
+    }
+  };
 
   return (
     <div className="upload-container">
       <h2 className="upload-title">Drag and Drop Your Exam Schedule</h2>
-      
+
       <div
         {...getRootProps()}
-        className="upload-box"
+        style={{
+          border: "2px dashed #ccc",
+          padding: "200px",
+          textAlign: "center",
+          cursor: "pointer",
+          borderRadius: "100px",
+          width: "700px",
+          margin: "0 auto",
+        }}
       >
-        {/* The file input is hidden, but still triggers on click */}
         <input {...getInputProps()} />
         <h3 className="upload-message">
           Drag and drop your exam schedule here, or click to select one
@@ -40,9 +80,13 @@ function Upload() {
 
       {/* Show the uploaded image */}
       {image && (
-        <div className="uploaded-image">
+        <div style={{ marginTop: "20px" }}>
           <h3>Uploaded Image:</h3>
-          <img src={image} alt="Uploaded Exam Schedule" />
+          <img
+            src={image}
+            alt="Uploaded"
+            style={{ width: "100%", maxWidth: "300px" }}
+          />
         </div>
       )}
     </div>
