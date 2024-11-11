@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import './Upload.css';
 
 function Upload() {
   const [image, setImage] = useState(null);
@@ -19,31 +20,29 @@ function Upload() {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/*', // Restrict to image files only
+    noClick: false, // Allow click event on the dropzone area
   });
 
   return (
-    <div>
-      <h2>Drag and Drop an Image of your Exam schedule</h2>
+    <div className="upload-container">
+      <h2 className="upload-title">Drag and Drop Your Exam Schedule</h2>
+      
       <div
         {...getRootProps()}
-        style={{
-          border: '2px dashed #ccc',
-          padding: '200px',
-          textAlign: 'center',
-          cursor: 'pointer',
-          borderRadius: '100px',
-          width: '700px',
-          margin: '0 auto',
-        }}
+        className="upload-box"
       >
+        {/* The file input is hidden, but still triggers on click */}
         <input {...getInputProps()} />
-        <h3>Drag and drop your exam schedule here, or click to select one</h3>
+        <h3 className="upload-message">
+          Drag and drop your exam schedule here, or click to select one
+        </h3>
       </div>
 
+      {/* Show the uploaded image */}
       {image && (
-        <div style={{ marginTop: '20px' }}>
+        <div className="uploaded-image">
           <h3>Uploaded Image:</h3>
-          <img src={image} alt="Uploaded" style={{ width: '100%', maxWidth: '300px' }} />
+          <img src={image} alt="Uploaded Exam Schedule" />
         </div>
       )}
     </div>
